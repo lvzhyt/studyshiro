@@ -12,6 +12,6 @@
 </head>
 <body>
 Login Page
-
+<a href="/login">login</a>
 </body>
 </html>

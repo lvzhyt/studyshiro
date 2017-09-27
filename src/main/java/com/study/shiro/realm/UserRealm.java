@@ -1,11 +1,13 @@
 package com.study.shiro.realm;
 
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by lzh on 2017/9/26.
@@ -32,10 +34,19 @@ public class UserRealm extends AuthorizingRealm {
 //        authorizationInfo.setStringPermissions(permissionNames);
 
 //        return authorizationInfo;
-        return null;
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        Set roles = new HashSet();
+        roles.add("user");
+        info.setRoles(roles);
+        return info;
     }
 
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        return null;
+        UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
+        Object princial = token.getUsername();
+        Object credentials = token.getPassword();
+        String realName = getName();
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(princial,credentials,realName);
+        return info;
     }
 }
